@@ -9,58 +9,43 @@ import Util.CaculateUtil;
 
 public class CaculateResult {
 
-	ArrayList<MyExpression> Question = new ArrayList<>();
-	ArrayList<String> Answer = new ArrayList<>();
-	ArrayList<MyExpression> PostfixExp = new ArrayList<>();
-
-	public boolean expInArray(MyExpression exp) {
-		// 判断此后缀表达式是否存在于PostfixExp
-		if (PostfixExp.contains(exp)) {
-			return true;
-		}
-		return false;
-	}
-
-
-
 	public static void caculate(MyExpression myExpression) {
 		PostfixExpression.toPostfixExpression(myExpression);
 		ArrayList<String> postfixExpression = myExpression.getPostfixExpression();
 		String temp = "";
 		Stack<String> s = new Stack<>();
 
-		String a = null;
-		String b = null;
+		String rightOperand = null;
+		String leftOperand = null;
 		int result = 0;
 		int a1, a2, b1, b2 = 0;
 		int denominator = 0;
 		int numerator = 0;
-		int gcd = 0;
-		a:for (int i = 0; i < postfixExpression.size(); i++) {
+		a: for (int i = 0; i < postfixExpression.size(); i++) {
 
 			String item = postfixExpression.get(i);
 			switch (item) {
 			case "+":
-				a = s.pop();
-				b = s.pop();
-				if (CaculateUtil.isNumeric(a) && CaculateUtil.isNumeric(b)) {
-					result = Integer.parseInt(a) + Integer.parseInt(b);
+				rightOperand = s.pop();
+				leftOperand = s.pop();
+				if (CaculateUtil.isNumeric(rightOperand) && CaculateUtil.isNumeric(leftOperand)) {
+					result = Integer.parseInt(rightOperand) + Integer.parseInt(leftOperand);
 					temp = String.valueOf(result);
-				} else if (CaculateUtil.isNumeric(a) && !CaculateUtil.isNumeric(b)) {
-					denominator = CaculateUtil.getDenominator(b);
-					numerator = CaculateUtil.getNumerator(b);
-					numerator = Integer.parseInt(a) * denominator + numerator;
+				} else if (CaculateUtil.isNumeric(rightOperand) && !CaculateUtil.isNumeric(leftOperand)) {
+					denominator = CaculateUtil.getDenominator(leftOperand);
+					numerator = CaculateUtil.getNumerator(leftOperand);
+					numerator = Integer.parseInt(rightOperand) * denominator + numerator;
 					temp = numerator + "/" + denominator;
-				} else if (!CaculateUtil.isNumeric(a) && CaculateUtil.isNumeric(b)) {
-					denominator = CaculateUtil.getDenominator(a);
-					numerator = CaculateUtil.getNumerator(a);
-					numerator = Integer.parseInt(b) * denominator + numerator;
+				} else if (!CaculateUtil.isNumeric(rightOperand) && CaculateUtil.isNumeric(leftOperand)) {
+					denominator = CaculateUtil.getDenominator(rightOperand);
+					numerator = CaculateUtil.getNumerator(rightOperand);
+					numerator = Integer.parseInt(leftOperand) * denominator + numerator;
 					temp = numerator + "/" + denominator;
 				} else {
-					a1 = CaculateUtil.getDenominator(a);
-					a2 = CaculateUtil.getNumerator(a);
-					b1 = CaculateUtil.getDenominator(b);
-					b2 = CaculateUtil.getNumerator(b);
+					a1 = CaculateUtil.getDenominator(rightOperand);
+					a2 = CaculateUtil.getNumerator(rightOperand);
+					b1 = CaculateUtil.getDenominator(leftOperand);
+					b2 = CaculateUtil.getNumerator(leftOperand);
 					numerator = a1 * b2 + a2 * b1;
 					denominator = a1 * b1;
 					temp = numerator + "/" + denominator;
@@ -69,26 +54,26 @@ public class CaculateResult {
 				break;
 
 			case "×":
-				a = s.pop();
-				b = s.pop();
-				if (CaculateUtil.isNumeric(a) && CaculateUtil.isNumeric(b)) {
-					result = Integer.parseInt(a) * Integer.parseInt(b);
+				rightOperand = s.pop();
+				leftOperand = s.pop();
+				if (CaculateUtil.isNumeric(rightOperand) && CaculateUtil.isNumeric(leftOperand)) {
+					result = Integer.parseInt(rightOperand) * Integer.parseInt(leftOperand);
 					temp = String.valueOf(result);
-				} else if (CaculateUtil.isNumeric(a) && !CaculateUtil.isNumeric(b)) {
-					numerator = CaculateUtil.getNumerator(b);
-					denominator = CaculateUtil.getDenominator(b);
-					numerator = numerator * Integer.parseInt(a);
+				} else if (CaculateUtil.isNumeric(rightOperand) && !CaculateUtil.isNumeric(leftOperand)) {
+					numerator = CaculateUtil.getNumerator(leftOperand);
+					denominator = CaculateUtil.getDenominator(leftOperand);
+					numerator = numerator * Integer.parseInt(rightOperand);
 					temp = numerator + "/" + denominator;
-				} else if (!CaculateUtil.isNumeric(a) && CaculateUtil.isNumeric(b)) {
-					numerator = CaculateUtil.getNumerator(a);
-					denominator = CaculateUtil.getDenominator(a);
-					numerator = numerator * Integer.parseInt(b);
+				} else if (!CaculateUtil.isNumeric(rightOperand) && CaculateUtil.isNumeric(leftOperand)) {
+					numerator = CaculateUtil.getNumerator(rightOperand);
+					denominator = CaculateUtil.getDenominator(rightOperand);
+					numerator = numerator * Integer.parseInt(leftOperand);
 					temp = numerator + "/" + denominator;
 				} else {
-					a1 = CaculateUtil.getDenominator(a);
-					a2 = CaculateUtil.getNumerator(a);
-					b1 = CaculateUtil.getDenominator(b);
-					b2 = CaculateUtil.getNumerator(b);
+					a1 = CaculateUtil.getDenominator(rightOperand);
+					a2 = CaculateUtil.getNumerator(rightOperand);
+					b1 = CaculateUtil.getDenominator(leftOperand);
+					b2 = CaculateUtil.getNumerator(leftOperand);
 					numerator = a2 * b2;
 					denominator = a1 * b1;
 					temp = numerator + "/" + denominator;
@@ -97,52 +82,36 @@ public class CaculateResult {
 				break;
 
 			case "-":
-				b = s.pop();
-				a = s.pop();
+				leftOperand = s.pop();
+				rightOperand = s.pop();
 				int inta, intb = 0;
-				if (CaculateUtil.isNumeric(a) && CaculateUtil.isNumeric(b)) {
-					inta = Integer.parseInt(a);
-					intb = Integer.parseInt(b);
-//					if (inta < intb) {
-//						break;
-//					} else {
-						result = inta - intb;
-						temp = String.valueOf(result);
-//					}
-				} else if (CaculateUtil.isNumeric(a) && !CaculateUtil.isNumeric(b)) {
-					inta = Integer.parseInt(a);
-					numerator = CaculateUtil.getNumerator(b);
-					denominator = CaculateUtil.getDenominator(b);
-//					if (inta * denominator < numerator) {
-//						break;
-//					} else {
-						numerator = inta * denominator - numerator;
-						temp = numerator + "/" + denominator;
-//					}
-				} else if (!CaculateUtil.isNumeric(a) && CaculateUtil.isNumeric(b)) {
-					intb = Integer.parseInt(b);
-					numerator = CaculateUtil.getNumerator(a);
-					denominator = CaculateUtil.getDenominator(a);
-//					if (numerator < intb * denominator) {
-//						break;
-//					} else {
-						numerator = numerator - intb * denominator;
-						temp = numerator + "/" + denominator;
-//					}
+				if (CaculateUtil.isNumeric(rightOperand) && CaculateUtil.isNumeric(leftOperand)) {
+					inta = Integer.parseInt(rightOperand);
+					intb = Integer.parseInt(leftOperand);
+					result = inta - intb;
+					temp = String.valueOf(result);
+				} else if (CaculateUtil.isNumeric(rightOperand) && !CaculateUtil.isNumeric(leftOperand)) {
+					inta = Integer.parseInt(rightOperand);
+					numerator = CaculateUtil.getNumerator(leftOperand);
+					denominator = CaculateUtil.getDenominator(leftOperand);
+					numerator = inta * denominator - numerator;
+					temp = numerator + "/" + denominator;
+				} else if (!CaculateUtil.isNumeric(rightOperand) && CaculateUtil.isNumeric(leftOperand)) {
+					intb = Integer.parseInt(leftOperand);
+					numerator = CaculateUtil.getNumerator(rightOperand);
+					denominator = CaculateUtil.getDenominator(rightOperand);
+					numerator = numerator - intb * denominator;
+					temp = numerator + "/" + denominator;
 				} else {
-					a1 = CaculateUtil.getDenominator(a);
-					a2 = CaculateUtil.getNumerator(a);
-					b1 = CaculateUtil.getDenominator(b);
-					b2 = CaculateUtil.getNumerator(b);
-//					if (a2 * b1 < a1 * b2) {
-//						break;
-//					} else {
-						numerator = a2 * b1 - a1 * b2;
-						denominator = a1 * b1;
-						temp = numerator + "/" + denominator;
-//					}
+					a1 = CaculateUtil.getDenominator(rightOperand);
+					a2 = CaculateUtil.getNumerator(rightOperand);
+					b1 = CaculateUtil.getDenominator(leftOperand);
+					b2 = CaculateUtil.getNumerator(leftOperand);
+					numerator = a2 * b1 - a1 * b2;
+					denominator = a1 * b1;
+					temp = numerator + "/" + denominator;
 				}
-				if(temp.contains("-")){
+				if (temp.contains("-")||temp.equals("0")) {
 					myExpression.setCheckAnswer(false);
 					break a;
 				}
@@ -150,41 +119,41 @@ public class CaculateResult {
 				break;
 
 			case "÷":
-				b = s.pop();
-				a = s.pop();
-				int inta1 = 0, intb1 = 0;
-				if (CaculateUtil.isNumeric(a) && CaculateUtil.isNumeric(b)) {
-					inta1 = Integer.parseInt(a);
-					intb1 = Integer.parseInt(b);
-					if (intb1 == 0) {
+				leftOperand = s.pop();
+				rightOperand = s.pop();
+				int integer_a = 0, integer_b = 0;
+				if (CaculateUtil.isNumeric(rightOperand) && CaculateUtil.isNumeric(leftOperand)) {
+					integer_a = Integer.parseInt(rightOperand);
+					integer_b = Integer.parseInt(leftOperand);
+					if (integer_b == 0) {
 						break;
-					} else if ((inta1 % intb1) == 0) {
-						result = inta1 / intb1;
+					} else if ((integer_a % integer_b) == 0) {
+						result = integer_a / integer_b;
 						temp = String.valueOf(result);
 					} else {
-						numerator = inta1;
-						denominator = intb1;
+						numerator = integer_a;
+						denominator = integer_b;
 						temp = numerator + "/" + denominator;
 					}
-				} else if (CaculateUtil.isNumeric(a) && !CaculateUtil.isNumeric(b)) {
-					inta1 = Integer.parseInt(a);
-					numerator = CaculateUtil.getNumerator(b);
-					denominator = CaculateUtil.getDenominator(b);
+				} else if (CaculateUtil.isNumeric(rightOperand) && !CaculateUtil.isNumeric(leftOperand)) {
+					integer_a = Integer.parseInt(rightOperand);
+					numerator = CaculateUtil.getNumerator(leftOperand);
+					denominator = CaculateUtil.getDenominator(leftOperand);
 					int temp1 = numerator;
-					numerator = inta1 * denominator;
+					numerator = integer_a * denominator;
 					denominator = temp1;
 					temp = numerator + "/" + denominator;
-				} else if (!CaculateUtil.isNumeric(a) && CaculateUtil.isNumeric(b)) {
-					intb1 = Integer.parseInt(b);
-					numerator = CaculateUtil.getNumerator(a);
-					denominator = CaculateUtil.getDenominator(a);
-					denominator = denominator * intb1;
+				} else if (!CaculateUtil.isNumeric(rightOperand) && CaculateUtil.isNumeric(leftOperand)) {
+					integer_b = Integer.parseInt(leftOperand);
+					numerator = CaculateUtil.getNumerator(rightOperand);
+					denominator = CaculateUtil.getDenominator(rightOperand);
+					denominator = denominator * integer_b;
 					temp = numerator + "/" + denominator;
 				} else {
-					a1 = CaculateUtil.getDenominator(a);
-					a2 = CaculateUtil.getNumerator(a);
-					b1 = CaculateUtil.getDenominator(b);
-					b2 = CaculateUtil.getNumerator(b);
+					a1 = CaculateUtil.getDenominator(rightOperand);
+					a2 = CaculateUtil.getNumerator(rightOperand);
+					b1 = CaculateUtil.getDenominator(leftOperand);
+					b2 = CaculateUtil.getNumerator(leftOperand);
 					numerator = a2 * b1;
 					denominator = a1 * b2;
 					temp = numerator + "/" + denominator;
@@ -196,31 +165,7 @@ public class CaculateResult {
 				s.push(item);
 				break;
 			}
-
 		}
-
-		// gcd = CaculateUtil.getGreatestCommonDivisor(numerator,
-		// denominator);// 获得最大公约数
-		// numerator /= gcd;
-		// denominator /= gcd;
-		// if (numerator / denominator >= 1) {
-		// temp = numerator / denominator + "'";
-		// }
-		// temp += numerator % denominator + "/" + denominator;
-		myExpression.setResult(temp);
+		myExpression.setResult(CaculateUtil.reduceFractiong(temp));
 	}
-
-//	public static void main(String[] args) {
-//		for (int i = 0; i < 10; i++) {
-//			MyExpression myExpression = ExpressionUtil.getRandomExpression(50);
-//			// myExpression.setExpression("17/55 + 6'4/5 + 5");
-//			PostfixExpression.toPostfixExpression(myExpression);
-//			String caculate = caculate(myExpression);
-//			if(myExpression.isCheckAnswer()){				
-//				System.out.print(myExpression.getExpression() + " = ");
-//				System.out.println(caculate);
-//			}
-//		}
-//
-//	}
 }

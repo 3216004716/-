@@ -2,6 +2,7 @@ package start;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import Util.ExpressionUtil;
 import Util.FileUtil;
@@ -10,9 +11,27 @@ import expression.MyExpression;
 
 public class OperateApplication {
 	public static void main(String[] args) throws IOException {
+		int range=0,count=0;
+		for(int i=0;i<args.length;i++){
+			switch (args[i]) {
+			case "-n":
+				count=Integer.parseInt(args[++i]);
+				break;
+			
+			case "-r":
+				range=Integer.parseInt(args[++i]);
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		
+		
 		ArrayList<MyExpression> arrayList = new ArrayList<MyExpression>();
-		while (arrayList.size() != 10) {
-			MyExpression randomExpression = ExpressionUtil.getRandomExpression(100);
+		while (arrayList.size() != count) {
+			MyExpression randomExpression = ExpressionUtil.getRandomExpression(range);
 			boolean flag = randomExpression.isCheckAnswer();// 检查结果
 			// 检查重复
 			for (int i = 0; i < arrayList.size(); i++) {
