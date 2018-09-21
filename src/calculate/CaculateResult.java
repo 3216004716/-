@@ -6,8 +6,6 @@ import java.util.Stack;
 import expression.MyExpression;
 import expression.PostfixExpression;
 import Util.CaculateUtil;
-import Util.ExpressionUtil;
-import Util.RandomUtil;
 
 public class CaculateResult {
 
@@ -23,15 +21,9 @@ public class CaculateResult {
 		return false;
 	}
 
-	public static String expToString(ArrayList<String> PostfixExpression) {
-		String string = null;
-		for (int i = 0; i < PostfixExpression.size(); i++) {
-			string += PostfixExpression.get(i);
-		}
-		return string;
-	}
 
-	public static String caculate(MyExpression myExpression) {
+
+	public static void caculate(MyExpression myExpression) {
 		PostfixExpression.toPostfixExpression(myExpression);
 		ArrayList<String> postfixExpression = myExpression.getPostfixExpression();
 		String temp = "";
@@ -215,20 +207,20 @@ public class CaculateResult {
 		// temp = numerator / denominator + "'";
 		// }
 		// temp += numerator % denominator + "/" + denominator;
-		return temp;
+		myExpression.setResult(temp);
 	}
 
-	public static void main(String[] args) {
-		for (int i = 0; i < 10; i++) {
-			MyExpression myExpression = ExpressionUtil.getRandomExpression(50);
-			// myExpression.setExpression("17/55 + 6'4/5 + 5");
-			PostfixExpression.toPostfixExpression(myExpression);
-			String caculate = caculate(myExpression);
-			if(myExpression.isCheckAnswer()){				
-				System.out.print(myExpression.getExpression() + " = ");
-				System.out.println(caculate);
-			}
-		}
-
-	}
+//	public static void main(String[] args) {
+//		for (int i = 0; i < 10; i++) {
+//			MyExpression myExpression = ExpressionUtil.getRandomExpression(50);
+//			// myExpression.setExpression("17/55 + 6'4/5 + 5");
+//			PostfixExpression.toPostfixExpression(myExpression);
+//			String caculate = caculate(myExpression);
+//			if(myExpression.isCheckAnswer()){				
+//				System.out.print(myExpression.getExpression() + " = ");
+//				System.out.println(caculate);
+//			}
+//		}
+//
+//	}
 }

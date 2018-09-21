@@ -2,17 +2,16 @@ package Util;
 
 import calculate.CaculateResult;
 import expression.MyExpression;
-import expression.PostfixExpression;
 
 public class ExpressionUtil {
 
 	public static MyExpression getRandomExpression(int range) {
 		// 获取随机表达式
 		MyExpression myExpression = null;
-		int index = (int) (Math.random() * 6);
-		if (index <= 1) {
+		int index = (int) (Math.random() * 10);
+		if (index <= 3) {
 			myExpression = getOneOperExp(range);// 一个操作符
-		} else if (index == 5) {// 三个操作符
+		} else if (index == 4) {// 三个操作符
 			index = (int) (Math.random() * 2);
 			if (index == 0) {
 				myExpression = getThreeOperExp(range);
@@ -27,8 +26,7 @@ public class ExpressionUtil {
 				myExpression = getTwoOperExpWithBracket(range);
 			}
 		}
-		PostfixExpression.toPostfixExpression(myExpression);//生成后缀表达式	
-//		CaculateResult.caculate(myExpression);	// 计算结果
+		CaculateResult.caculate(myExpression);	// 计算结果
 
 		return myExpression;
 	}
