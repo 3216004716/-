@@ -5,13 +5,13 @@ import java.util.Stack;
 
 public class PostfixExpression {
 	public static void toPostfixExpression(MyExpression myExpression) {
-
+		//将String类型转换成MyExpression类型的后缀表达式
 		ArrayList<String> postfixExpression = generatePostfixExpression(myExpression.getExpression());
 		myExpression.setPostfixExpression(postfixExpression);
-
 	}
 
 	private static ArrayList<String> generatePostfixExpression(String expression) {
+		//生成String类型的后缀表达式
 		String[] expressionArray = expression.split(" ");
 		ArrayList<String> postfixExpression = new ArrayList<String>();
 		Stack<String> stack = new Stack<String>();
@@ -19,7 +19,6 @@ public class PostfixExpression {
 			String item = expressionArray[i];
 			String temp = "";
 			switch (item) {
-
 			case "(":
 				stack.push(item);
 				break;

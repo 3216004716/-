@@ -25,11 +25,6 @@ public class RandomUtil {
 		}
 		return Operand;
 	}
-	// public int getOperand(int range) {
-	// // 生成随机操作数
-	// int operand = (int) Math.random() * range;
-	// return operand;
-	// }
 
 	private static int getRangeNumber(int min, int max) {
 		// 生成在min~max范围内的随机数
@@ -39,7 +34,7 @@ public class RandomUtil {
 
 	private static String getNaturalNumber(int range) {
 		// 生成自然数
-		return String.valueOf(getRangeNumber(0, range));
+		return String.valueOf(getRangeNumber(1, range));
 	}
 
 	private static String getTruTractionNumber(int range) {
@@ -62,5 +57,4 @@ public class RandomUtil {
 		} while (numerator == 0);
 		return integerpart + "'" + numerator + "/" + denominator;
 	}
-
 }

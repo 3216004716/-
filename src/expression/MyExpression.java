@@ -4,9 +4,18 @@ import java.util.ArrayList;
 
 public class MyExpression {
 
-	String expression;
-	ArrayList<String> postfixExpression;
-	String result;
+	private String expression;
+	private ArrayList<String> postfixExpression;
+	private String result;
+	private boolean checkAnswer=true;
+
+	public boolean isCheckAnswer() {
+		return checkAnswer;
+	}
+
+	public void setCheckAnswer(boolean checkAnswer) {
+		this.checkAnswer = checkAnswer;
+	}
 
 	public String getResult() {
 		return result;

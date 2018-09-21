@@ -28,7 +28,7 @@ public class ExpressionUtil {
 			}
 		}
 		PostfixExpression.toPostfixExpression(myExpression);//生成后缀表达式	
-		CaculateResult.caculate(myExpression);	// 计算结果
+//		CaculateResult.caculate(myExpression);	// 计算结果
 
 		return myExpression;
 	}
@@ -101,7 +101,17 @@ public class ExpressionUtil {
 	}
 
 	private static String jointExpression(String left, String operator, String right) {
+		//拼接表达式
 		return left + " " + operator + " " + right;
+	}
+	
+	public static void main(String[] args) {
+		for (int i = 0; i < 100; i++) {
+			MyExpression randomExpression = getRandomExpression(50);
+			System.out.println(randomExpression.getExpression()+" = "+randomExpression.getPostfixExpression());
+		}
+		
+		
 	}
 
 }
